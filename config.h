@@ -5,8 +5,10 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
+static char *font = "Go Mono:pixelsize=12:antialias=true:autohint=true";
 static int borderpx = 2;
+
+static char *plumb_cmd = "plumb";
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -16,7 +18,7 @@ static int borderpx = 2;
  * 4: value of shell in /etc/passwd
  * 5: value of shell in config.h
  */
-static char *shell = "/bin/sh";
+static char *shell = "/bin/ksh";
 char *utmp = NULL;
 /* scroll program: to enable use a string like "scroll" */
 char *scroll = NULL;
@@ -34,7 +36,7 @@ static float chscale = 1.0;
  *
  * More advanced example: L" `'\"()[]{}"
  */
-wchar_t *worddelimiters = L" ";
+wchar_t *worddelimiters = L" │";
 
 /* selection timeouts (in milliseconds) */
 static unsigned int doubleclicktimeout = 300;
@@ -104,6 +106,7 @@ static const char *colorname[] = {
 	"magenta3",
 	"cyan3",
 	"gray90",
+	"#ffffea",
 
 	/* 8 bright colors */
 	"gray50",
@@ -114,6 +117,14 @@ static const char *colorname[] = {
 	"magenta",
 	"cyan",
 	"white",
+	"#4c566a", /* black   */
+	"#bf616a", /* red     */
+	"#a3be8c", /* green   */
+	"#ebcb8b", /* yellow  */
+	"#81a1c1", /* blue    */
+	"#b48ead", /* magenta */
+	"#8fbcbb", /* cyan    */
+	"#eceff4", /* white   */
 
 	[255] = 0,
 
@@ -127,10 +138,10 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 7;
-unsigned int defaultbg = 0;
-static unsigned int defaultcs = 256;
-static unsigned int defaultrcs = 257;
+unsigned int defaultfg = 0;
+unsigned int defaultbg = 8;
+static unsigned int defaultcs = 1;
+static unsigned int defaultrcs = 7;
 
 /*
  * Default shape of cursor
@@ -151,7 +162,7 @@ static unsigned int rows = 24;
 /*
  * Default colour and shape of the mouse cursor
  */
-static unsigned int mouseshape = XC_xterm;
+static unsigned int mouseshape = XC_left_ptr;
 static unsigned int mousefg = 7;
 static unsigned int mousebg = 0;
 
@@ -159,7 +170,7 @@ static unsigned int mousebg = 0;
  * Color used to display font attributes when fontconfig selected a font which
  * doesn't match the ones requested.
  */
-static unsigned int defaultattr = 11;
+static unsigned int defaultattr = 17;
 
 /*
  * Force mouse select/shortcuts while mask is active (when MODE_MOUSE is set).
@@ -470,9 +481,3 @@ static char ascii_printable[] =
 	" !\"#$%&'()*+,-./0123456789:;<=>?"
 	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
 	"`abcdefghijklmnopqrstuvwxyz{|}~";
-
-/*
- * plumb_cmd is run on mouse button 3 click, with argument set to
- * current selection and with cwd set to the cwd of the active shell
- */
-static char *plumb_cmd = "plumb";
